@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 export default function Home() {
 	return (
-		<main className='flex min-h-screen flex-col justify-between backdrop-blur-3xl'>
+		<main className='flex h-screen flex-col justify-between backdrop-blur-3xl px-3'>
 			<Header />
 			<WelcomeBody />
 			<QuickSearch />

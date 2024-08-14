@@ -5,14 +5,14 @@ import { Input } from './ui/input';
 
 export default function BottomBar() {
 	return (
-		<div className='p-1 rounded-3xl bg-white flex items-center justify-between w-1/3 mx-auto mb-4'>
+		<div className='p-1 rounded-3xl bg-white flex items-center justify-between w-full md:w-1/2 mx-auto mb-4'>
 			<div className='flex items-center gap-1'>
 				<div className='bg-gray-100 cursor-pointer size-10 flex items-center justify-center rounded-full border'>
 					<Link className='size-4' />
 				</div>
 				<div>
-					<input
-						className='w-full flex-grow h-10 outline-none'
+					<textarea
+						className='md:w-[30rem] w-[14rem] flex-grow h-5 outline-none'
 						placeholder='Ask anything...'
 					/>
 				</div>

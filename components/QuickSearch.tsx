@@ -17,17 +17,21 @@ function Card({
 	description: string;
 }) {
 	return (
-		<div className=' aspect-square h-36 w-44 rounded-2xl shadow-lg bg-white/50 cursor-pointer flex flex-col justify-between overflow-hidden p-3'>
+		<div className=' md:h-36 w-3/4 md:w-44 rounded-2xl shadow-lg bg-white/50 cursor-pointer flex flex-row md:flex-col items-center md:items-start gap-2 justify-between overflow-hidden p-3'>
 			{icon}
-			<h1 className='font-semibold leading-none'>{title}</h1>
-			<p className='text-[0.6rem] text-muted-foreground'>{description}</p>
+			<h1 className='md:font-semibold leading-none text-sm select-none'>
+				{title}
+			</h1>
+			<p className='text-[0.6rem] hidden md:block text-muted-foreground'>
+				{description}
+			</p>
 		</div>
 	);
 }
 
 export default function QuickSearch() {
 	return (
-		<div className='flex items-center justify-center gap-4'>
+		<div className='flex flex-col md:flex-row items-center justify-center gap-4'>
 			<Card
 				icon={<PlaneTakeoff className='size-9 text-purple-300' />}
 				title='Best Costal Destinations this Summer'
