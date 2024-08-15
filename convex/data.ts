@@ -42,9 +42,25 @@ export const getRecord = query({
 export const getAllUserRecords = query({
 	args: { userId: v.string() },
 	handler: async (ctx, args) => {
-		return await ctx.db
+		const response = await ctx.db
 			.query('documents')
-			.filter((q) => q.eq(q.field('userId'), args.userId))
+			.filter((q) =>
+				q.and(
+					q.eq(q.field('userId'), args.userId),
+					q.neq(q.field('title'), ''),
+					q.neq(q.field('messages'), '[]')
+				)
+			)
+			.order('desc')
 			.collect();
+
+		return response;
+	},
+});
+
+export const deleteRecord = mutation({
+	args: { id: v.id('documents') },
+	handler: async (ctx, args) => {
+		await ctx.db.delete(args.id);
 	},
 });

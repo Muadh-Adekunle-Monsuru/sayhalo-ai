@@ -21,7 +21,7 @@ export default function Chat() {
 		}, 2000);
 	};
 	return (
-		<div className='h-[70rem] overflow-y-scroll w-full md:w-1/2 mx-auto custom-scrollbar backdrop-blur-3xl bg-gray-50/20 p-3'>
+		<div className='h-[70rem] overflow-y-scroll w-full md:w-2/3  mx-auto custom-scrollbar backdrop-blur-3xl bg-gray-50/20 p-3'>
 			{chats.map((m) => (
 				<div key={m.id} className=''>
 					<div className='flex gap-6 items-center font-medium'>

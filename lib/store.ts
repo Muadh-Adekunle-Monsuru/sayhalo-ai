@@ -1,3 +1,4 @@
+import { Id } from '@/convex/_generated/dataModel';
 import { create } from 'zustand';
 interface Attachment {
 	name?: string;
@@ -6,7 +7,11 @@ interface Attachment {
 }
 type response = {
 	chats: messages[];
-	setChat: (val: messages[]) => void;
+	updateChat: (val: messages[]) => void;
+	panel: Boolean;
+	showPanel: () => void;
+	prevId: Id<'documents'> | undefined;
+	setPrevId: (val: Id<'documents'> | undefined) => void;
 };
 
 type messages = {
@@ -19,7 +24,15 @@ type messages = {
 
 export const useStore = create<response>((set) => ({
 	chats: [],
-	setChat: (val) => {
+	updateChat: (val) => {
 		set(() => ({ chats: val }));
+	},
+	panel: false,
+	showPanel: () => {
+		set((state) => ({ panel: !state.panel }));
+	},
+	prevId: undefined,
+	setPrevId: (val) => {
+		set(() => ({ prevId: val }));
 	},
 }));

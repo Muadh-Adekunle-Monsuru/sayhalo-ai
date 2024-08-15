@@ -15,14 +15,14 @@ import { generateTitle } from '@/app/actions';
 
 export default function BottomBar() {
 	const { user } = useUser();
-	const { chats, setChat } = useStore();
+	const { chats, updateChat, prevId, setPrevId } = useStore();
 	const [done, setDone] = useState(false);
-	const [prevId, setPrevId] = useState<Id<'documents'>>();
 	const [docTitle, setDocTitle] = useState('');
 	const [files, setFiles] = useState<FileList | undefined>(undefined);
 	const mutation = useMutation(api.data.createRecord);
 	const updateData = useMutation(api.data.updateRecord);
 	const fileInputRef = useRef<HTMLInputElement>(null);
+
 	const {
 		messages,
 		input,
@@ -34,15 +34,23 @@ export default function BottomBar() {
 		async onFinish(message, options) {
 			setDone((prev) => !prev);
 		},
+		initialMessages: chats,
 	});
 
+	const isMounted = useRef(false);
 	useEffect(() => {
-		setChat(messages);
+		if (!isMounted.current) {
+			isMounted.current = true;
+			return;
+		}
+		updateChat(messages);
+		console.log('messages', messages);
+		console.log('chats', chats);
 	}, [messages]);
 
 	useEffect(() => {
 		const change = async () => {
-			if (chats.length < 0 || !user?.id) return;
+			if (chats.length < 0 || !user?.id || !docTitle) return;
 
 			if (prevId) {
 				updateData({ id: prevId, messages: JSON.stringify(chats) });
@@ -61,7 +69,7 @@ export default function BottomBar() {
 
 	const handleReset = () => {
 		setPrevId(undefined);
-		setMessages([]);
+		updateChat([]);
 	};
 	return (
 		<div className='flex w-full  items-center gap-2 justify-center py-4'>
