@@ -7,7 +7,6 @@ interface Attachment {
 type response = {
 	chats: messages[];
 	setChat: (val: messages[]) => void;
-	experimental_attachments?: Attachment[];
 };
 
 type messages = {
@@ -23,5 +22,4 @@ export const useStore = create<response>((set) => ({
 	setChat: (val) => {
 		set(() => ({ chats: val }));
 	},
-	experimental_attachments: [],
 }));

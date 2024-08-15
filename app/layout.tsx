@@ -8,6 +8,7 @@ import {
 	SignedOut,
 	UserButton,
 } from '@clerk/nextjs';
+import { ConvexClientProvider } from '@/components/ConvexProvider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -27,7 +28,7 @@ export default function RootLayout({
 				<body
 					className={`${inter.className} bg-gradient-to-br from-pink-100  via-purple-200 to-pink-100`}
 				>
-					{children}
+					<ConvexClientProvider>{children}</ConvexClientProvider>
 				</body>
 			</html>
 		</ClerkProvider>

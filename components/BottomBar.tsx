@@ -7,10 +7,21 @@ import { useChat } from 'ai/react';
 import { useStore } from '@/lib/store';
 import NewChatButton from './NewChatButton';
 import { useRef, useState } from 'react';
+import { useMutation } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+import { useUser } from '@clerk/nextjs';
+import { Id } from '@/convex/_generated/dataModel';
+import { generateTitle } from '@/app/actions';
 
 export default function BottomBar() {
+	const { user } = useUser();
 	const { chats, setChat } = useStore();
+	const [done, setDone] = useState(false);
+	const [prevId, setPrevId] = useState<Id<'documents'>>();
+	const [docTitle, setDocTitle] = useState('');
 	const [files, setFiles] = useState<FileList | undefined>(undefined);
+	const mutation = useMutation(api.data.createRecord);
+	const updateData = useMutation(api.data.updateRecord);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const {
 		messages,
@@ -19,19 +30,49 @@ export default function BottomBar() {
 		handleSubmit,
 		isLoading,
 		setMessages,
-	} = useChat();
+	} = useChat({
+		async onFinish(message, options) {
+			setDone((prev) => !prev);
+		},
+	});
 
 	useEffect(() => {
 		setChat(messages);
 	}, [messages]);
 
+	useEffect(() => {
+		const change = async () => {
+			if (chats.length < 0 || !user?.id) return;
+
+			if (prevId) {
+				updateData({ id: prevId, messages: JSON.stringify(chats) });
+				return;
+			}
+			const response = await mutation({
+				messages: JSON.stringify(chats),
+				title: docTitle,
+				userId: user?.id!,
+			});
+
+			setPrevId(response);
+		};
+		change();
+	}, [done]);
+
+	const handleReset = () => {
+		setPrevId(undefined);
+		setMessages([]);
+	};
 	return (
 		<div className='flex w-full  items-center gap-2 justify-center py-4'>
 			<form
-				onSubmit={(event) => {
+				onSubmit={async (event) => {
 					handleSubmit(event, {
 						experimental_attachments: files,
 					});
+
+					const title = await generateTitle(input);
+					setDocTitle(title);
 
 					setFiles(undefined);
 
@@ -80,7 +121,7 @@ export default function BottomBar() {
 					)}
 				</Button>
 			</form>
-			{chats.length > 0 && <NewChatButton onClick={setMessages} />}
+			{chats.length > 0 && <NewChatButton onClick={handleReset} />}
 		</div>
 	);
 }
