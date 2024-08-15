@@ -20,12 +20,12 @@ import {
 import { useStore } from '@/lib/store';
 export default function Header() {
 	const { isSignedIn, isLoaded } = useAuth();
-	const { setChat } = useStore();
+	const { updateChat } = useStore();
 	return (
 		<nav className='w-full p-4 lg:px-10 flex items-center justify-between'>
 			<div
 				className='flex items-center gap-1 cursor-pointer blur-[0.3px]'
-				onClick={() => setChat([])}
+				onClick={() => updateChat([])}
 			>
 				<Sparkles className='size-8 text-purple-900' />
 				<p className='font-medium text-xl select-none'>Halo</p>

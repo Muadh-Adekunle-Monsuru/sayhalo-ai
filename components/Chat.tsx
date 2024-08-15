@@ -64,7 +64,10 @@ export default function Chat() {
 							attachment?.contentType?.startsWith('image/')
 						)
 						.map((attachment, index) => (
-							<div className='size-52 overflow-hidden mx-auto rounded-xl mb-4 border-2'>
+							<div
+								className='size-52 overflow-hidden mx-auto rounded-xl mb-4 border-2'
+								key={index}
+							>
 								<img
 									key={`${m.id}-${index}`}
 									src={attachment.url}
