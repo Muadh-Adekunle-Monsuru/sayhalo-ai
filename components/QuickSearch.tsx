@@ -17,7 +17,7 @@ function Card({
 	description: string;
 }) {
 	return (
-		<div className=' md:h-36 w-3/4 md:w-44 rounded-2xl shadow-lg bg-white/50 cursor-pointer flex flex-row md:flex-col items-center md:items-start gap-2 justify-between overflow-hidden p-3'>
+		<div className=' md:h-36 w-3/4 md:w-44 rounded-2xl shadow-lg bg-white/50 cursor-pointer flex flex-row md:flex-col items-center md:items-start gap-2 md:justify-between overflow-hidden p-3'>
 			{icon}
 			<h1 className='md:font-semibold leading-none text-sm select-none'>
 				{title}
