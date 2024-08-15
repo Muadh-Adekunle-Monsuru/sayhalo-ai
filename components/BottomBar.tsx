@@ -23,19 +23,13 @@ export default function BottomBar() {
 	const updateData = useMutation(api.data.updateRecord);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
-	const {
-		messages,
-		input,
-		handleInputChange,
-		handleSubmit,
-		isLoading,
-		setMessages,
-	} = useChat({
-		async onFinish(message, options) {
-			setDone((prev) => !prev);
-		},
-		initialMessages: chats,
-	});
+	const { messages, input, handleInputChange, handleSubmit, isLoading } =
+		useChat({
+			async onFinish(message, options) {
+				setDone((prev) => !prev);
+			},
+			initialMessages: chats,
+		});
 
 	const isMounted = useRef(false);
 	useEffect(() => {
@@ -44,8 +38,8 @@ export default function BottomBar() {
 			return;
 		}
 		updateChat(messages);
-		console.log('messages', messages);
-		console.log('chats', chats);
+		// console.log('messages', messages);
+		// console.log('chats', chats);
 	}, [messages]);
 
 	useEffect(() => {

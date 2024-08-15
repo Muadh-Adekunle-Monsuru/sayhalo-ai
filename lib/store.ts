@@ -14,7 +14,7 @@ type response = {
 	setPrevId: (val: Id<'documents'> | undefined) => void;
 };
 
-type messages = {
+export type messages = {
 	experimental_attachments?: Attachment[];
 	id: string;
 	content: string;
